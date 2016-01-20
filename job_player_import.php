@@ -31,6 +31,7 @@ while (true) {
         
         $proccessed = 0;
         $objFileLog->startProcessing($uploadId, $totalCount, 'IP');
+logme("Start Processing on ".date('Y-M-D H:i:s'));
         foreach ($fileObject as $row) {
             $playerName = $row['player'];
             if (empty($playerName)) {
