@@ -65,8 +65,8 @@ class CSVFile extends SPLFileObject
         // return;
         // }
         
-        // var_dump($this->columns);
-        // var_dump($row_data);
+        var_dump($this->columns);
+         var_dump($row_data);
         return $this->has_header ? array_combine($this->columns, $row_data) : $row_data;
     }
 }

@@ -12,7 +12,7 @@ use Subash\Classes\UploadFileLog;
 while (true) {
     logme("polling");
     $objFileLog = new UploadFileLog();
-    $isQueuedItem = $objFileLog->getQueuedItem();
+    $isQueuedItem = $objFileLog->getQueuedItem('PLD');
     if (count($isQueuedItem) > 0) {
         $objTeam = new Teams();
         $teams = $objTeam->getTeamIds();

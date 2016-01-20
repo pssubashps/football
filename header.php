@@ -51,10 +51,8 @@
     <div class="col-sm-3 sidenav">
       <h4>Project</h4>
       <ul class="nav nav-pills nav-stacked">
-        <li class="active"><a href="#section1">Home</a></li>
-        <li><a href="addlist.php">List</a></li>
-        <li><a href="phone.php">Contact</a></li>
-        <li><a href="dailer1.php">Dialer</a></li>
+       <li ><a href="upload_player_score.php">Upload Player Score</a></li>
+        <li><a href="upload_fixture.php">List</a></li>
       </ul><br>
 
     </div>
