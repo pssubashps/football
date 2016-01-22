@@ -21,7 +21,7 @@ $(document).ready(
 				return $("<li>").append(
 						"<a><span style='float:left'>" + item.player_name
 								+ "</span><span style='text-align:center;padding-left: 100px;'>"
-								+ item.team_name
+								+ item.avg_player_price
 								+ "</span><span style='float:right'>"
 								+ item.team_name + "</span></a>").appendTo(ul);
 			};

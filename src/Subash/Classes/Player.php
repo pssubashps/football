@@ -97,7 +97,7 @@ LIMIT 20";
 FROM
     player_score ps
         JOIN
-    player p ON p.id = ps.player JOIN team t ON t.id = ps.team
+    player p ON p.id = ps.player LEFT JOIN team t ON t.id = ps.team
 WHERE
     ps.player = $id order by id desc
 
