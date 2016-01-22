@@ -16,7 +16,7 @@ while ( true ) {
 	if (count ( $isQueuedItem ) > 0) {
 		$objTeam = new Teams ();
 		$teams = $objTeam->getTeamIds ();
-		print_r ( $teams );
+		//print_r ( $teams );
 		
 		$filePath = $isQueuedItem ['filename'];
 		$uploadId = $isQueuedItem ['id'];
@@ -30,7 +30,7 @@ while ( true ) {
 		
 		$proccessed = 0;
 		$objFileLog->startProcessing ( $uploadId, $totalCount, 'IP' );
-		logme ( "Start Processing on " . date ( 'Y-M-D H:i:s' ) );
+		logme ( "Start Processing on " . date ( 'Y-M-d H:i:s' ) );
 		foreach ( $fileObject as $row ) {
 			
 		
@@ -39,9 +39,11 @@ while ( true ) {
 			;
 			$assoc ['round_number'] = trim ( $row ['round'] );
 			try {
-				$matchDate = new \DateTime($row['date']." ".$row['time']);
+				logme(trim($row['date'])." ".trim($row['time']));
+				$matchDate = new \DateTime(str_replace("/","-",trim($row['date']))." ".trim(str_replace(" ",'',$row['time'])));
 				$assoc ['match_date'] = $matchDate->format('Y-m-d H:i:s');
 			} catch ( \Exception $e ) {
+				die($e->getMessage());
 				$assoc ['match_date'] = null;
 			}
 			

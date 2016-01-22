@@ -18,12 +18,18 @@ $(document).ready(
 					return false;
 				}
 			}).autocomplete("instance")._renderItem = function(ul, item) {
-				return $("<li>").append("<a>" + item.player_name + "</a>")
-						.appendTo(ul);
+				return $("<li>").append(
+						"<a><span style='float:left'>" + item.player_name
+								+ "</span><span style='text-align:center;padding-left: 100px;'>"
+								+ item.team_name
+								+ "</span><span style='float:right'>"
+								+ item.team_name + "</span></a>").appendTo(ul);
 			};
 
-			$("#search_go").click(function() {
-				
-				window.location = "searchresult.php?pid="+$("#search_id").val();
-			});
+			$("#search_go").click(
+					function() {
+
+						window.location = "searchresult.php?pid="
+								+ $("#search_id").val();
+					});
 		});

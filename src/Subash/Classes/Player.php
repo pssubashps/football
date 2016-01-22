@@ -69,7 +69,7 @@ class Player extends Database {
 	public function getPlayers($search) {
 		$this->getConnection ();
 		$sql = "SELECT 
-    p.id AS player_id, p.name AS player_name,t.name as team_name
+    p.id AS player_id, p.name AS player_name,t.name as team_name,avg(player_price) as avg_player_price
 FROM
     player_score ps
         JOIN
@@ -99,9 +99,36 @@ FROM
         JOIN
     player p ON p.id = ps.player JOIN team t ON t.id = ps.team
 WHERE
-    ps.player = $id
+    ps.player = $id order by id desc
 
 LIMIT 50";
+		// print $sql;exit;
+		$result = $this->dbLink->query ( $sql );
+		$existingTeams = [ ];
+		if ($result->num_rows > 0) {
+			// output data of each row
+			while ( $row = $result->fetch_assoc () ) {
+				$existingTeams [] = $row;
+			}
+		}
+		$this->closeConnection ();
+		return $existingTeams;
+	}
+	public function getPlayerSummary($id, $year = '2015') {
+		$this->getConnection ();
+		$sql = "SELECT 
+    ps.player AS player_id,
+	min(player_score_val) as min_player_score_val,
+    max(player_score_val) as max_player_score_val,
+    avg(player_price) as avg_player_price,
+	avg(player_score_val) as avg_player_score_val
+   
+FROM
+    player_score ps
+     
+WHERE
+    ps.player = $id AND player_score_year = '" . $year . "'
+ORDER BY id DESC";
 		//print $sql;exit;
 		$result = $this->dbLink->query ( $sql );
 		$existingTeams = [ ];
@@ -111,6 +138,7 @@ LIMIT 50";
 				$existingTeams [] = $row;
 			}
 		}
+	
 		$this->closeConnection ();
 		return $existingTeams;
 	}

@@ -69,4 +69,50 @@ class Teams extends Database {
 		$stmt->close ();
 		$this->closeConnection ();
 	}
+	public function getUpcomingmatches($teamId) {
+		$curDate = new \DateTime ( 'now' );
+		$this->getConnection ();
+		$sql = "SELECT 
+    afl.*,t1.name as team1_name,t2.name as team2_name
+FROM
+    2016_afl_table AS afl JOIN team t1 ON t1.id = afl.team1 JOIN team t2 ON t2.id = afl.team2
+WHERE
+    afl.match_date > '" . $curDate->format ( 'Y-m-d H:i:s' ) . "'
+        AND (afl.team1 = $teamId OR afl.team1 = $teamId) 
+ORDER BY afl.match_date
+LIMIT 3";
+		$result = $this->dbLink->query ( $sql );
+		$existingTeams = [ ];
+		if ($result->num_rows > 0) {
+			// output data of each row
+			while ( $row = $result->fetch_assoc () ) {
+				$existingTeams [] = $row;
+			}
+		}
+		$this->closeConnection ();
+		return $existingTeams;
+	}
+	public function getLastmatches($teamId) {
+		$curDate = new \DateTime ( 'now' );
+		$this->getConnection ();
+		$sql = "SELECT
+     afl.*,t1.name as team1_name,t2.name as team2_name
+FROM
+    2016_afl_table AS afl JOIN team t1 ON t1.id = afl.team1 JOIN team t2 ON t2.id = afl.team2
+WHERE
+    afl.match_date < '" . $curDate->format ( 'Y-m-d H:i:s' ) . "'
+	    AND (afl.team1 = $teamId OR afl.team1 = $teamId) 
+	    ORDER BY afl.match_date desc
+	    LIMIT 3";
+		$result = $this->dbLink->query ( $sql );
+		$existingTeams = [ ];
+		if ($result->num_rows > 0) {
+			// output data of each row
+			while ( $row = $result->fetch_assoc () ) {
+				$existingTeams [] = $row;
+			}
+		}
+		$this->closeConnection ();
+		return $existingTeams;
+	}
 }
