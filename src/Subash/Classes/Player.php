@@ -84,6 +84,7 @@ LIMIT 20";
 		if ($result->num_rows > 0) {
 			// output data of each row
 			while ( $row = $result->fetch_assoc () ) {
+			    $row['avg_player_price'] =  money_format('%n', $row['avg_player_price']);
 				$existingTeams [] = $row;
 			}
 		}
