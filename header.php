@@ -56,6 +56,7 @@ footer {
 	cursor: pointer;
 	display: inline-block;
 }
+
 </style>
 </head>
 <body>
@@ -69,5 +70,17 @@ footer {
 					<li><a href="upload_fixture.php">List</a></li>
 				</ul>
 				<br>
-				
+			<?php 
+			echo "<h4>Recent Searches</h4>";
+			if(isset($_COOKIE['my_recent_search']))
+			{
+			    $searches = json_decode($_COOKIE['my_recent_search']);
+			  //  print_r($searches);exit;
+			    foreach ($searches as $s){
+			      $sr = explode("-", $s);
+			        echo "<p><a href='searchresult.php?pid=".$sr[0]."'>".$sr[1]."     ".@$sr[2]."</a></p>";
+			    }
+			}
+			?>	
 			</div>
+			

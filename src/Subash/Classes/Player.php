@@ -76,7 +76,7 @@ FROM
     player p ON p.id = ps.player JOIN team t ON t.id = ps.team
 WHERE
     (LOWER(p.`name`) LIKE '%" . $search . "%')
-        OR (LOWER(t.`name`) LIKE '%" . $search . "%')
+        OR (LOWER(t.`name`) LIKE '%" . $search . "%') AND ps.player_score_year = '2015' AND ps.player_score_val > 0 
 GROUP BY p.id
 LIMIT 20";
 		$result = $this->dbLink->query ( $sql );
@@ -100,7 +100,7 @@ FROM
         JOIN
     player p ON p.id = ps.player LEFT JOIN team t ON t.id = ps.team
 WHERE
-    ps.player = $id order by id desc
+    ps.player = $id  order by id desc
 
 LIMIT 50";
 		// print $sql;exit;

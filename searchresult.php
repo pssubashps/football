@@ -61,6 +61,36 @@ if (count($players) > 0) {
 	
 	<?php
 if (count($players) > 0) {
+    
+    /**
+     * Store recent searches in cookie
+     */
+    $cookie_name= "my_recent_search";
+    $recentArray = [];
+    $pName1 = $pName;
+    $searchKey = $playerid."-".$pName1."-".money_format("%n", $players[0]['player_price']);
+    if(!isset($_COOKIE[$cookie_name])) {
+        
+        $recentArray[] = $searchKey;
+        $t = setcookie($cookie_name,json_encode($recentArray));
+       
+    }else{
+        
+        $recentArray =  json_decode($_COOKIE[$cookie_name]);
+        if(count($recentArray) >= 5)
+        {
+            array_pop($recentArray);
+           
+        }
+       
+        if(!in_array($searchKey, $recentArray))
+        {
+            array_unshift($recentArray,$searchKey);
+            $t = setcookie($cookie_name,json_encode($recentArray));
+        }
+       
+       
+    }
     $pl = $players[0];
     $teamId = $pl['team'];
     $nextMatches = $teams->getUpcomingmatches($teamId);
@@ -77,14 +107,14 @@ if (count($players) > 0) {
      * Last 3 round avarage
      */
     echo "<td>";
-    echo "3 round Ave: " . money_format("%n", ($players[0]['player_price'] + $players[0]['player_price'] + $players[0]['player_price'] / 3));
+    echo "3 round Ave: " . number_format(($players[0]['player_score_val'] + $players[0]['player_score_val'] + $players[0]['player_score_val'] / 3),2);
     echo "</td>";
     
     /**
      * Last 5 round avarage
      */
     echo "<td>";
-    echo "5 round Ave: " . money_format("%n", ($players[0]['player_price'] + $players[1]['player_price'] + $players[2]['player_price'] + $players[3]['player_price'] + $players[4]['player_price'] / 5));
+    echo "5 round Ave: " . number_format(($players[0]['player_score_val'] + $players[1]['player_score_val'] + $players[2]['player_score_val'] + $players[3]['player_score_val'] + $players[4]['player_score_val'] / 5),2);
     
     echo "</td>";
     
@@ -92,7 +122,7 @@ if (count($players) > 0) {
      * Need to check
      */
     echo "<td>";
-    echo "Season ave: X";
+    echo "Season ave: ".number_format($playerSummary['avg_player_score_val'],2);
     echo "</td>";
     
     echo "<td>";
@@ -131,7 +161,7 @@ if (count($players) > 0) {
      * Points per dollar: Average(2015)/Current Price
      */
     echo "<td>";
-    echo "Points per dollar :  " . money_format("%n", $playerSummary['avg_player_price'] / $players[0]['player_price']);
+    echo "Points per dollar :  " . number_format($playerSummary['avg_player_price'] / $players[0]['player_price'],2);
     echo "</td>";
     
     echo "<td>";
